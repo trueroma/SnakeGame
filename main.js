@@ -6,7 +6,8 @@ let
     trail = [], tail = 5,
     start, isPaused = false,
     score, currScore = 0,
-    xTouchStart, yTouchStart;
+    xTouchStart, yTouchStart,
+    switcher, rod, madmanIsOn = false, prevSpeed;
 const game = () => {
     xPlayerPos += xVelocity;
     yPlayerPos += yVelocity;
@@ -126,9 +127,29 @@ const keyPush = e => {
             pause();
     }
 }
+const madman = () => {
+    if (madmanIsOn) {
+        madmanIsOn = false;
+        speed = prevSpeed;
+        clearInterval(start);
+        if (!isPaused) start = setInterval(game, 1000/speed);
+        switcher.style.backgroundColor = '#666';
+        rod.style.transform = 'translateX(0)';
+    } else {
+        madmanIsOn = true;
+        prevSpeed = speed;
+        speed = 60;
+        clearInterval(start);
+        if (!isPaused) start = setInterval(game, 1000/speed);
+        switcher.style.backgroundColor = '#fc2c38';
+        rod.style.transform = 'translateX(4vw)';
+    }
+}
 const init = () => {
     cvs = document.querySelector('#cvs');
     score = document.querySelector('.score');
+    switcher = document.querySelector('.switcher');
+    rod = document.querySelector('.rod');
     ctx = cvs.getContext('2d');
 
     const
@@ -141,7 +162,8 @@ const init = () => {
     start = setInterval(game, 1000/speed);
 
     document.addEventListener("keydown", keyPush);
-    document.addEventListener('touchstart', touchStartDefine);
-    document.addEventListener('touchend', getDirectionTouch);
+    cvs.addEventListener('touchstart', touchStartDefine);
+    cvs.addEventListener('touchend', getDirectionTouch);
+    switcher.addEventListener('click', madman);
 }
 document.addEventListener('DOMContentLoaded', init);

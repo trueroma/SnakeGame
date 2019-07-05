@@ -3,6 +3,8 @@ html {
 }
 
 body {
+  margin: 0;
+  padding: 0;
   width: 100vw;
   background-color: #333;
   display: flex;
@@ -10,11 +12,32 @@ body {
   overflow: hidden;
 }
 
-.score {
+h1 {
   font-family: "Arial", sans-serif;
   color: #ffffff;
-  text-align: center;
   font-size: 3rem;
+  text-align: center;
+}
+
+.switcher {
+  box-sizing: border-box;
+  margin-top: 2rem;
+  width: 8vw;
+  height: 4vw;
+  border: solid 0.1rem #aeaeae;
+  border-radius: 2vw;
+  background-color: #666;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.rod {
+  height: 4vw;
+  width: 4vw;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: all 0.3s;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,10 +1,11 @@
 let
-    cvs, ctx, speed = 15, gridSize = 20,
+    cvs, ctx, speed = 15, gridSize = 20, tileCount,
     xVelocity = 0, yVelocity = 0,
     xPlayerPos = 10, yPlayerPos = 10,
     xApple = 15, yApple = 15,
-    trail = [], tail = 5;
-
+    trail = [], tail = 5,
+    start, isPaused = false,
+    score, currScore = 0;
 const game = () => {
     xPlayerPos += xVelocity;
     yPlayerPos += yVelocity;
@@ -22,20 +23,40 @@ const game = () => {
     ctx.fillRect(0, 0, cvs.height, cvs.width);
 
     ctx.fillStyle = '#fc2c38';
-    ctx.fillRect(xApple * gridSize, yApple * gridSize, gridSize, gridSize);
+    ctx.fillRect(xApple * tileCount, yApple * tileCount, tileCount, tileCount);
 
     if (xApple === xPlayerPos && yApple === yPlayerPos) {
         tail++;
+        currScore++;
+        if (speed < 31 && currScore % 2) {
+            speed++;
+            clearInterval(start);
+            start = setInterval(game, 1000/speed);
+            console.log(speed);
+        }
+        score.innerHTML = currScore.toString();
         console.log(tail);
         xApple = Math.floor(Math.random() * gridSize);
         yApple = Math.floor(Math.random() * gridSize);
     }
 
-    ctx.fillStyle = '#0f0';
+    ctx.fillStyle = '#e5e8e8';
     for (let i = 0; i < trail.length; i++) {
-        ctx.fillRect(trail[i].x * gridSize, trail[i].y * gridSize, gridSize - 2, gridSize - 2);
+        let
+            fill = tileCount * .9,
+            starDot = tileCount * .05;
+
+        if (i === trail.length - 1) {
+            fill = tileCount;
+            starDot = 0;
+        }
+
+        ctx.fillRect(trail[i].x * tileCount + starDot, trail[i].y * tileCount + starDot, fill, fill);
         if (trail[i].x === xPlayerPos && trail[i].y === yPlayerPos) {
-            tail = 5;
+            tail = 3;
+            currScore = 0;
+            speed = 15;
+            score.innerHTML = currScore;
         }
     }
     trail.push({
@@ -44,38 +65,66 @@ const game = () => {
     });
     while (trail.length > tail) trail.shift();
 }
+const
+    left = () => {
+        xVelocity = -1; yVelocity = 0;
+    },
+    down = () => {
+        xVelocity = 0; yVelocity = -1;
+    },
+    right = () => {
+        xVelocity = 1; yVelocity = 0;
+    },
+    up = () => {
+        xVelocity = 0; yVelocity = 1;
+    },
+    pause = () => {
+        if (!isPaused) {
+            clearInterval(start);
+            isPaused = true;
+        } else {
+            start = setInterval(game, 1000/speed);
+            isPaused = false;
+        }
+    };
 const keyPush = e => {
-    console.log(e.keyCode);
     switch(e.keyCode) {
-        case 37: // left
+        case 37:
         case 65:
-            xVelocity = -1; yVelocity = 0;
-            console.log('left');
+            left();
             break;
-        case 38: // down
+        case 38:
         case 87:
-            xVelocity = 0; yVelocity = -1;
-            console.log('up');
+            down();
             break;
-        case 39: // right
+        case 39:
         case 68:
-            xVelocity = 1; yVelocity = 0;
-            console.log('right');
+            right();
             break;
-        case 40: // up
+        case 40:
         case 83:
-            xVelocity = 0; yVelocity = 1;
-            console.log('down');
+            up();
             break;
+        case 32:
+            pause();
     }
 }
 const init = () => {
     cvs = document.querySelector('#cvs');
+    score = document.querySelector('.score');
     ctx = cvs.getContext('2d');
+
+    const
+        vw = document.documentElement.clientWidth,
+        vh = document.documentElement.clientHeight;
+    cvs.height = cvs.width = (vw < vh ? vw : vh) * .7;
+    tileCount = cvs.width / gridSize;
     // ctx.fillStyle = '#000';
     // ctx.fillRect(0, 0, cvs.height, cvs.width);
+    start = setInterval(game, 1000/speed);
+
     document.addEventListener("keydown", keyPush);
-    setInterval(game, 1000/speed);
-    cvs.height = cvs.width = 400;
+    document.addEventListener('touchstart', touchStartDefine);
+    document.addEventListener('touchend', getDirectionTouch);
 }
 document.addEventListener('DOMContentLoaded', init);

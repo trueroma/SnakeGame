@@ -7,7 +7,8 @@ let
     start, isPaused = false,
     score, currScore = 0,
     xTouchStart, yTouchStart,
-    switcher, rod, madmanIsOn = false, prevSpeed;
+    switcher, rod, madmanIsOn = false, prevSpeed,
+    controlUp, controlLeft, controlRight, controlDown;
 const game = () => {
     xPlayerPos += xVelocity;
     yPlayerPos += yVelocity;
@@ -149,7 +150,11 @@ const init = () => {
     cvs = document.querySelector('#cvs');
     score = document.querySelector('.score');
     switcher = document.querySelector('.switcher');
-    rod = document.querySelector('.rod');
+    rod = document.querySelector('.rod'),
+    controlUp = document.querySelector('.up'),
+    controlLeft = document.querySelector('.left'),
+    controlDown = document.querySelector('.down'),
+    controlRight = document.querySelector('.right');
     ctx = cvs.getContext('2d');
 
     const
@@ -165,5 +170,9 @@ const init = () => {
     cvs.addEventListener('touchstart', touchStartDefine);
     cvs.addEventListener('touchend', getDirectionTouch);
     switcher.addEventListener('click', madman);
+    controlUp.addEventListener('click', down);
+    controlLeft.addEventListener('click', left);
+    controlDown.addEventListener('click', up);
+    controlRight.addEventListener('click', right);
 }
 document.addEventListener('DOMContentLoaded', init);

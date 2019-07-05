@@ -40,4 +40,76 @@ h1 {
   transition: all 0.3s;
 }
 
+.controls {
+  display: none;
+}
+
+@media (orientation: portrait) {
+  .controls {
+    margin: 10rem 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70vw;
+    height: 70vw;
+  }
+  .controls .up {
+    margin: 0;
+    height: 20vw;
+    width: 20vw;
+  }
+  .controls .up .up-filler {
+    background-color: #e5e8e8;
+    margin: 0;
+    height: 20vw;
+    width: 20vw;
+    -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: rotate(-90deg);
+  }
+  .controls .down {
+    margin: 0;
+    height: 20vw;
+    width: 20vw;
+  }
+  .controls .down .down-filler {
+    background-color: #e5e8e8;
+    margin: 0;
+    height: 20vw;
+    width: 20vw;
+    -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: rotate(90deg);
+  }
+  .controls .left {
+    margin: 0;
+    height: 20vw;
+    width: 20vw;
+  }
+  .controls .left .left-filler {
+    background-color: #e5e8e8;
+    margin: 0;
+    height: 20vw;
+    width: 20vw;
+    -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%);
+    transform: rotate(180deg);
+  }
+  .controls .right {
+    margin: 0;
+    height: 20vw;
+    width: 20vw;
+  }
+  .controls .right .right-filler {
+    background-color: #e5e8e8;
+    margin: 0;
+    height: 20vw;
+    width: 20vw;
+    -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+  .controls .wrap {
+    height: 20vw;
+    width: 60vw;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */

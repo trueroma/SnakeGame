@@ -30,3 +30,61 @@ h1
   background-color: #fff
   border-radius: 50%
   transition: all .3s
+.controls
+  display: none
+@media (orientation: portrait)
+  .controls
+    margin: 10rem 0 0 auto
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 70vw
+    height: 70vw
+    .up
+      margin: 0
+      height: 20vw
+      width: 20vw
+      .up-filler
+        background-color: #e5e8e8
+        margin: 0
+        height: 20vw
+        width: 20vw
+        -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%)
+        transform: rotate(-90deg)
+    .down
+      margin: 0
+      height: 20vw
+      width: 20vw
+      .down-filler
+        background-color: #e5e8e8
+        margin: 0
+        height: 20vw
+        width: 20vw
+        -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%)
+        transform: rotate(90deg)
+    .left
+      margin: 0
+      height: 20vw
+      width: 20vw
+      .left-filler
+        background-color: #e5e8e8
+        margin: 0
+        height: 20vw
+        width: 20vw
+        -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%)
+        transform: rotate(180deg)
+    .right
+      margin: 0
+      height: 20vw
+      width: 20vw
+      .right-filler
+        background-color: #e5e8e8
+        margin: 0
+        height: 20vw
+        width: 20vw
+        -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%)
+    .wrap
+      height: 20vw
+      width: 60vw
+      display: flex
+      justify-content: space-between

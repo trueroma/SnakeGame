@@ -5,7 +5,8 @@ let
     xApple = 15, yApple = 15,
     trail = [], tail = 5,
     start, isPaused = false,
-    score, currScore = 0;
+    score, currScore = 0,
+    xTouchStart, yTouchStart;
 const game = () => {
     xPlayerPos += xVelocity;
     yPlayerPos += yVelocity;
@@ -86,6 +87,22 @@ const
             start = setInterval(game, 1000/speed);
             isPaused = false;
         }
+    };
+const
+    touchStartDefine = (e) => {
+        xTouchStart = e.touches[0].clientX;
+        yTouchStart = e.touches[0].clientY;
+    },
+    getDirectionTouch = ev => {
+        let xRange = Math.abs(xTouchStart - ev.changedTouches[0].clientX);
+        let yRange = Math.abs(yTouchStart - ev.changedTouches[0].clientY);
+        if (xRange > yRange) {
+            if (xTouchStart > ev.changedTouches[0].clientX) left();
+            if (xTouchStart < ev.changedTouches[0].clientX) right();
+        } else if (xRange < yRange) {
+            if (yTouchStart > ev.changedTouches[0].clientY) down();
+            if (yTouchStart < ev.changedTouches[0].clientY) up();
+        } else pause();
     };
 const keyPush = e => {
     switch(e.keyCode) {

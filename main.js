@@ -3,7 +3,7 @@ let
     xVelocity = 0, yVelocity = 0,
     xPlayerPos = 10, yPlayerPos = 10,
     xApple = 15, yApple = 15,
-    trail = [], tail = 5,
+    trail = [], tail = 2,
     start, isPaused = false,
     score, currScore = 0,
     xTouchStart, yTouchStart,
@@ -56,9 +56,12 @@ const game = () => {
 
         ctx.fillRect(trail[i].x * tileCount + starDot, trail[i].y * tileCount + starDot, fill, fill);
         if (trail[i].x === xPlayerPos && trail[i].y === yPlayerPos) {
-            tail = 3;
-            currScore = 0;
-            speed = 15;
+            for (let j = 0; j < i; j++) {
+                trail.shift();
+                if (tail > 2) tail--;
+            }
+            currScore -= i;
+            if (currScore < 0) currScore = 0;
             score.innerHTML = currScore;
         }
     }
@@ -107,22 +110,24 @@ const
         } else pause();
     };
 const keyPush = e => {
+    document.removeEventListener("keydown", keyPush);
+    setTimeout(() => document.addEventListener("keydown", keyPush), 1000/speed);
     switch(e.keyCode) {
         case 37:
         case 65:
-            left();
+            if (xVelocity <= 0) left();
             break;
         case 38:
         case 87:
-            down();
+            if (yVelocity <= 0) down();
             break;
         case 39:
         case 68:
-            right();
+            if (xVelocity >= 0) right();
             break;
         case 40:
         case 83:
-            up();
+            if (yVelocity >= 0) up();
             break;
         case 32:
             pause();
